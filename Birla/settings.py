@@ -146,3 +146,13 @@ ALLOWED_HOSTS = [
 CSRF_TRUSTED_ORIGINS = [
     'https://birla-app.onrender.com'
 ]
+MIDDLEWARE = [
+    'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # Crucial for Render static files
+    'django.contrib.sessions.middleware.SessionMiddleware',  # Fixes E410
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',  # Fixes E408
+    'django.contrib.messages.middleware.MessageMiddleware',  # Fixes E409
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
