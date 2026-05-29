@@ -141,5 +141,8 @@ MIDDLEWARE = [
 ]
 
 ALLOWED_HOSTS = [
-    'Birla.onrender.com'
+    'https://birla-app.onrender.com'
+]
+CSRF_TRUSTED_ORIGINS = [
+    'https://birla-app.onrender.com'
 ]
