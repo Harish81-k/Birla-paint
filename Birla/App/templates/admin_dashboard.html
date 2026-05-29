@@ -1,0 +1,189 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Admin Dashboard</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+
+<style>
+
+/* BODY */
+body{
+    margin:0;
+    font-family:Poppins;
+    background:#0f172a;
+    color:white;
+}
+
+/* SIDEBAR */
+.sidebar{
+    width:250px;
+    height:100vh;
+    position:fixed;
+    background:#111827;
+    padding:20px;
+}
+
+.sidebar h2{
+    color:#38bdf8;
+    margin-bottom:30px;
+}
+
+.sidebar a{
+    display:block;
+    color:white;
+    text-decoration:none;
+    padding:12px;
+    margin:8px 0;
+    border-radius:8px;
+    transition:0.3s;
+}
+
+.sidebar a:hover{
+    background:#38bdf8;
+    color:black;
+}
+
+/* MAIN */
+.main{
+    margin-left:260px;
+    padding:20px;
+}
+
+/* CARDS */
+.card-box{
+    background:#1e293b;
+    padding:20px;
+    border-radius:15px;
+    text-align:center;
+    box-shadow:0 0 10px rgba(0,0,0,0.3);
+    transition:0.3s;
+}
+
+.card-box:hover{
+    transform:translateY(-5px);
+    box-shadow:0 0 20px #38bdf8;
+}
+
+.card-box i{
+    font-size:35px;
+    color:#38bdf8;
+    margin-bottom:10px;
+}
+
+/* TABLE */
+.table-box{
+    background:#1e293b;
+    padding:20px;
+    border-radius:15px;
+    margin-top:30px;
+}
+
+table{
+    color:white !important;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+
+    <h2><i class="bi bi-speedometer2"></i> Admin Panel</h2>
+
+    <a href="{% url 'paint_list' %}"><i class="bi bi-brush"></i> Paints</a>
+
+    <a href="{% url 'colors' %}"><i class="bi bi-palette"></i> Colors</a>
+
+    <a href="{% url 'orders' %}"><i class="bi bi-cart"></i> Orders</a>
+
+    <a href="{% url 'upload_paint' %}">
+    <i class="bi bi-plus-circle"></i> Add Paint
+</a>
+
+    <a href="{% url 'admin_users' %}"><i class="bi bi-people"></i> Users</a>
+
+    <a href="{% url 'logout' %}"><i class="bi bi-box-arrow-right"></i> Logout</a>
+
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+    <h2>Dashboard</h2>
+
+    <!-- STATS -->
+    <div class="row mt-4">
+
+        <div class="col-md-4">
+            <div class="card-box">
+                <i class="bi bi-people-fill"></i>
+                <h3>{{ user_count }}</h3>
+                <p>Registered Users</p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card-box">
+                <i class="bi bi-brush"></i>
+                <h3>{{ paint_count }}</h3>
+                <p>Total Paints</p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card-box">
+                <i class="bi bi-cart-check"></i>
+                <h3>{{ order_count }}</h3>
+                <p>Total Orders</p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- RECENT ORDERS -->
+    <div class="table-box">
+
+        <h4>Recent Orders</h4>
+
+        <table class="table table-dark table-hover mt-3">
+
+            <thead>
+                <tr>
+                    <th>User</th>
+                    <th>Paint</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for order in orders %}
+
+                <tr>
+                    <td>{{ order.user.name }}</td>
+                    <td>{{ order.paint.name }}</td>
+                    <td>{{ order.status }}</td>
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,346 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Poppins,sans-serif;
+}
+
+body{
+    background:#0f0f1a;
+    color:#eaeaea;
+}
+
+/* TOPBAR */
+
+.topbar{
+    background:#16162a;
+    padding:14px 18px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    box-shadow:0 2px 15px rgba(0,0,0,0.4);
+    position:sticky;
+    top:0;
+    z-index:100;
+    color:#fff;
+}
+
+.cart-title{
+    font-size:20px;
+    font-weight:700;
+    color:#ffffff;
+}
+
+/* SECTION TITLE */
+
+.section-title{
+    font-size:20px;
+    font-weight:700;
+    margin-bottom:15px;
+    color:#00e5ff;
+}
+
+/* CARD */
+
+.cart-card{
+    background:#1a1a2e;
+    border-radius:14px;
+    overflow:hidden;
+    margin-bottom:18px;
+    box-shadow:0 0 12px rgba(0,229,255,0.08);
+    border:1px solid rgba(0,229,255,0.08);
+}
+
+.cart-image{
+    width:100%;
+    height:180px;
+    object-fit:cover;
+}
+
+.cart-body{
+    padding:14px;
+}
+
+.paint-name{
+    font-size:17px;
+    font-weight:700;
+    color:#ffffff;
+}
+
+.paint-category{
+    color:#9aa0a6;
+    font-size:13px;
+    margin-top:4px;
+}
+
+.price{
+    color:#ff3d81;
+    font-size:22px;
+    font-weight:700;
+    margin-top:8px;
+}
+
+/* QTY */
+
+.quantity-box{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-top:12px;
+}
+
+.qty-btn{
+    width:30px;
+    height:30px;
+    border:none;
+    border-radius:50%;
+    background:#00e5ff;
+    color:#000;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-decoration:none;
+    font-weight:700;
+}
+
+.qty-number{
+    font-size:16px;
+    font-weight:700;
+    color:#fff;
+}
+
+/* BUTTONS */
+
+.btn-buy{
+    width:100%;
+    background:linear-gradient(45deg,#00e5ff,#00bcd4);
+    color:#000;
+    padding:10px;
+    border-radius:10px;
+    text-decoration:none;
+    display:block;
+    text-align:center;
+    margin-top:14px;
+    font-weight:700;
+}
+
+.btn-remove{
+    width:100%;
+    background:#ff3d81;
+    color:#fff;
+    padding:10px;
+    border-radius:10px;
+    text-decoration:none;
+    display:block;
+    text-align:center;
+    margin-top:10px;
+    font-weight:700;
+}
+
+/* SUMMARY */
+
+.summary-box{
+    background:#1a1a2e;
+    padding:18px;
+    border-radius:14px;
+    box-shadow:0 0 12px rgba(0,229,255,0.08);
+    position:sticky;
+    top:90px;
+    border:1px solid rgba(0,229,255,0.1);
+}
+
+.summary-title{
+    font-size:18px;
+    font-weight:700;
+    color:#00e5ff;
+}
+
+.summary-row{
+    display:flex;
+    justify-content:space-between;
+    margin-top:12px;
+    font-size:15px;
+    color:#eaeaea;
+}
+
+.checkout-btn{
+    width:100%;
+    background:linear-gradient(45deg,#00e5ff,#00bcd4);
+    color:#000;
+    padding:12px;
+    border-radius:10px;
+    text-decoration:none;
+    display:block;
+    text-align:center;
+    margin-top:18px;
+    font-weight:700;
+}
+
+/* EMPTY */
+
+.empty-box{
+    text-align:center;
+    margin-top:80px;
+    color:#bbb;
+}
+
+.empty-box i{
+    font-size:70px;
+    color:#00e5ff;
+}
+
+.shop-btn{
+    background:#00e5ff;
+    color:#000;
+    padding:10px 20px;
+    border-radius:10px;
+    text-decoration:none;
+    display:inline-block;
+    margin-top:20px;
+    font-weight:700;
+}
+
+</style>
+
+<!-- TOPBAR -->
+<div class="topbar">
+
+    <i class="bi bi-arrow-left" onclick="history.back()" style="font-size:22px;cursor:pointer;color:#fff;"></i>
+
+    <div class="cart-title">My Cart</div>
+
+    <a href="{% url 'orders' %}" class="text-light">
+        <i class="bi bi-bag-check-fill" style="font-size:22px;"></i>
+    </a>
+
+</div>
+
+<div class="container mt-4">
+<div class="row">
+
+<!-- WISHLIST -->
+<div class="col-lg-3">
+
+    <div class="section-title">Wishlist</div>
+
+    {% if wishlist_items %}
+
+        {% for item in wishlist_items %}
+        <div class="cart-card">
+
+            <img src="{{ item.paint.image.url }}" class="cart-image">
+
+            <div class="cart-body">
+
+                <div class="paint-name">{{ item.paint.name }}</div>
+
+                <div class="paint-category">{{ item.paint.category }}</div>
+
+                <div class="price">₹ {{ item.paint.price }}</div>
+
+                <a href="{% url 'add_to_cart' item.paint.id %}" class="btn-buy">
+                    Add To Cart
+                </a>
+
+            </div>
+        </div>
+        {% endfor %}
+
+    {% else %}
+        <div class="empty-box">
+            <i class="bi bi-heart"></i>
+            <h5 class="mt-3">Empty Wishlist</h5>
+        </div>
+    {% endif %}
+
+</div>
+
+<!-- CART ITEMS -->
+<div class="col-lg-6">
+
+    <div class="section-title">Cart Items</div>
+
+    {% if cart_items %}
+
+        {% for item in cart_items %}
+        <div class="cart-card">
+
+            <img src="{{ item.paint.image.url }}" class="cart-image">
+
+            <div class="cart-body">
+
+                <div class="paint-name">{{ item.paint.name }}</div>
+
+                <div class="paint-category">{{ item.paint.category }}</div>
+
+                <div class="price">₹ {{ item.paint.price }}</div>
+
+                <div class="quantity-box">
+
+                    <a href="{% url 'decrease_quantity' item.id %}" class="qty-btn">-</a>
+
+                    <div class="qty-number">{{ item.quantity }}</div>
+
+                    <a href="{% url 'increase_quantity' item.id %}" class="qty-btn">+</a>
+
+                </div>
+
+                <a href="{% url 'checkout' %}" class="btn-buy">Buy Now</a>
+
+                <a href="{% url 'remove_cart' item.id %}" class="btn-remove">Remove Item</a>
+
+            </div>
+        </div>
+        {% endfor %}
+
+    {% else %}
+        <div class="empty-box">
+            <i class="bi bi-cart-x"></i>
+            <h4 class="mt-3">Cart Empty</h4>
+            <a href="{% url 'colors' %}" class="shop-btn">Continue Shopping</a>
+        </div>
+    {% endif %}
+
+</div>
+
+<!-- SUMMARY -->
+<div class="col-lg-3">
+
+    <div class="summary-box">
+
+        <div class="summary-title">Price Details</div>
+
+        <div class="summary-row">
+            <span>Cart Items</span>
+            <span>{{ cart_items|length }}</span>
+        </div>
+
+        <div class="summary-row">
+            <span>Wishlist</span>
+            <span>{{ wishlist_items|length }}</span>
+        </div>
+
+        <div class="summary-row">
+            <span>Total Amount</span>
+            <span>₹ {{ total_price }}</span>
+        </div>
+
+        <a href="{% url 'checkout' %}" class="checkout-btn">
+            Proceed Checkout
+        </a>
+
+    </div>
+
+</div>
+
+</div>
+</div>
+
+{% endblock %}
