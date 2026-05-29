@@ -140,9 +140,8 @@ MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
-ALLOWED_HOSTS = [
-    'https://birla-app.onrender.com'
-]
+ALLOWED_HOSTS = ['birla-app.onrender.com', '127.0.0.1', 'localhost']
+
 CSRF_TRUSTED_ORIGINS = [
     'https://birla-app.onrender.com'
 ]
