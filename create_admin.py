@@ -8,7 +8,7 @@ django.setup()
 from django.contrib.auth.models import User
 
 # Configuration for your Admin Account
-USERNAME = 'admin'
+USERNAME = 'admin@gmail.com'
 EMAIL = 'harish@example.com'
 PASSWORD = 'Harish@12'  # Change this to whatever password you want
 
